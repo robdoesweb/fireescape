@@ -21,9 +21,11 @@ document.addEventListener('keyup', function(e){
 	Input.keys[e.key] = false;
 });
 
-document.addEventListener('mousemove', function(e){
-	Input.mouse.x = e.clientX;
-	Input.mouse.y = e.clientY;
+var rect = document.getElementById('squid').getBoundingClientRect();
+
+document.addEventListener('mousemove', function(e){	
+	Input.mouse.x = e.clientX - rect.left;
+	Input.mouse.y = e.clientY - rect.top;
 });
 
 document.addEventListener('click', function(e){

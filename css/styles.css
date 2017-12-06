@@ -12,7 +12,19 @@ body {
 	padding: 0;
 	height: 100vh;
 	width: 100vw;
-	background-image: linear-gradient(#EEE, #AAA);
+	background-image: linear-gradient(#F00, #800);
+}
+
+#squid {
+
+}
+
+#title {
+	font-weight: bolder;
+	color: #FFF;
+	width: 100vw;
+	text-align: center;
+	font-size: 5em;
 }
 
 .container {

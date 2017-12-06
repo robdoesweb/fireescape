@@ -55,7 +55,7 @@ Squid.prototype = {
 
 	render: function(ctx) {
 		ctx.fillStyle = this.background;
-		ctx.fillRect(0, 0, this.width, this.height);
+		ctx.clearRect(0, 0, this.width, this.height);
 		for (var layer in this.layers) {
 			if (this.layers.hasOwnProperty(layer)) {
 				this.layers[layer].render(ctx);
