@@ -4,7 +4,7 @@
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<title>Mazes</title>
+		<title>FireEscape - Building Evacuation Planner</title>
 
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
 		<link rel="stylesheet" type="text/css" href="css/styles.css"/>
@@ -13,10 +13,16 @@
 
 	<body>
 		<h1 id="title">Fire Escape</h1>
-
-		<canvas id="squid"></canvas>
-
-
+		<div id="toolbar">
+			<p id="status">Edit Mode</p>
+			<button id="edit">Edit</button>
+			<button id="user">User</button>
+			<button id="room">Build Room</button>
+			<button id="update">Update</button>
+		</div>
+		<div id="frame">
+			<canvas id="squid"></canvas>
+		</div>
 		<script src="js/jquery.min.js"></script>
 		<script src="js/jquery.mobile.custom.min.js"></script> <!-- touch events -->
 		<script src="js/bootstrap.min.js"></script>
@@ -29,8 +35,10 @@
 		<script src="js/squid-layer.js"></script>
 		<script src="js/squid.js"></script>
 		<script src="js/map.js"></script>
-		<script src="js/easystar.js"></script>
+		<script src="js/astar.js"></script>
 		<script src="js/main.js"></script>
+
+		<script src="js/windowFix.js"></script>
 
 	</body>
 </html>

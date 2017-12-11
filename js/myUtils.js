@@ -17,9 +17,13 @@ window.randF = function (floor, ceil)
 //add pi as variable instead of Math.PI
 window.pi = Math.PI;
 
+window.manhattan = function(one, two) {
+	return (Math.abs(two.x - one.x) + Math.abs(two.y - one.y));
+}
+
 // Check if obj is a function
 //from Underscore.js 
-// http://stackoverflow.com/questions/5999998/how-can-i-check-if-a-javascript-variable-is-function-type
+// http://stackoverflow.com/questions/5999998/how-can-i-check-if-ajavascript-variable-is-function-type
 window.isFunction = function(obj) {
   return !!(obj && obj.constructor && obj.call && obj.apply);
 };

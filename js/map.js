@@ -8,10 +8,10 @@ function Floorplan(size_x, size_y, tile_scale) {
 	this.exits = [];  // 1d array of exits with position objects {x,y}
 	this.default_start = {x: 0, y: 0}; // initial placement for marker, can be updated later
 
-	for (var y = 0; y < (size_y); y++) {
-		this.data[y] = [];
-		for (var x = 0; x < (size_x); x++) {
-			this.data[y][x] = 0;
+	for (var x = 0; x < (size_x); x++) {
+		this.data[x] = [];
+		for (var y = 0; y < (size_y); y++) {
+			this.data[x][y] = 1;
 		}
 	}
 }
@@ -21,9 +21,10 @@ Floorplan.prototype.fillTile = function(x, y, block_type) {
 }
 
 Floorplan.prototype.fillBlock = function(sx, sy, w, h, block_type) {
+	var _self = this;
 	for (var y = sy; y < h + sy; y++) {
 		for (var x = sx; x < w + sx; x++) {
-			this.data[x][y] = block_type;
+			_self.data[x][y] = block_type;
 		}
 	}
 }
@@ -37,6 +38,16 @@ Floorplan.prototype.eraseBlock = function(sx, sy, w, h) {
 	Floorplan.prototype.fillBlock(sx, sy, w, h, blocks.CLEAR);
 }
 
+Floorplan.prototype.findGoals = function() {
+	this.exits = [];
+	for (var y = 0; y < this.y; y++) {
+		for (var x = 0; x < this.x; x++) {
+			if (this.data[x][y] == blocks.EXIT) {
+				this.exits.push({x: x, y: y});
+			}
+		}
+	}
+}
 
 map_config = {
 	w: 1000,
@@ -47,8 +58,8 @@ map_config = {
 	blocks denote different parts of floor plan
 **/
 blocks = {
-	CLEAR: 0,
-	WALL: 1,
+	WALL: 0,
+	CLEAR: 1,
 	DOOR: 2,
 	WINDOW: 3,
 	OBST: 4,
@@ -59,9 +70,9 @@ blocks = {
 	getColor: function(blockId) {
 		switch (blockId) {
 			case 0:
-				return '#FFFFFF'; // clear floorspace
+				return '#000'; // clear
 			case 1:
-				return '#000000'; // wall
+				return '#FFF'; // wall
 			case 2:
 				return '#ABABAB'; // door
 			case 3:

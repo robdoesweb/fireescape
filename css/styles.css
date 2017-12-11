@@ -15,8 +15,13 @@ body {
 	background-image: linear-gradient(#F00, #800);
 }
 
-#squid {
+#frame {
+	width: 100vw;
+}
 
+#squid { 
+	display: block;
+	margin: auto;
 }
 
 #title {
@@ -24,7 +29,6 @@ body {
 	color: #FFF;
 	width: 100vw;
 	text-align: center;
-	font-size: 5em;
 }
 
 .container {
