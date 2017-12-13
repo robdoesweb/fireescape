@@ -13,13 +13,17 @@
 
 	<body>
 		<h1 id="title">Fire Escape</h1>
-		<div id="toolbar">
+
+		<div id="control-panel">
 			<p id="status">Edit Mode</p>
-			<button id="edit">Edit</button>
-			<button id="user">User</button>
-			<button id="room">Build Room</button>
-			<button id="update">Update</button>
+			<button id="edit">Edit Mode</button>
+			<button id="user">User Mode</button>
+			<div id="toolbar">
+				<button id="room">Build Room</button>
+				<button id="update">Update</button>
+			</div>
 		</div>
+
 		<div id="frame">
 			<canvas id="squid"></canvas>
 		</div>
@@ -36,6 +40,7 @@
 		<script src="js/squid.js"></script>
 		<script src="js/map.js"></script>
 		<script src="js/astar.js"></script>
+		<script src="js/ui.js"></script>
 		<script src="js/main.js"></script>
 
 		<script src="js/windowFix.js"></script>

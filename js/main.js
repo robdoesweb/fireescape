@@ -10,9 +10,10 @@ config = {
 	tileSize: 16, 	  // number of pixels to represent 1 square unit of floorspace
 	tilesAcross: 61,  // number of tiles to render width-wise (should be odd, so marker can be at center)
 	tilesDown: 61,     // number of tiles to render height-wise ( ^^^ )
-	width: this.tileSize * this.tilesAcross,
-	height: this.tileSize * this.tilesDown
 }
+
+config.width = config.tileSize * config.tilesAcross,
+config.height = config.tileSize * config.tilesDown
 
 estimator = {
 	fps: 4.54667
@@ -84,21 +85,21 @@ app = {
 				this.y = (this.pos.y - app.floorplan.offY)* config.tileSize; 
 				if (app.mode === "EDITOR") {
 					if (Input.keys['0']) {
-						app.tool.tileType = 0;
+						app.tool.tileType = blocks.CLEAR;
 					} else if (Input.keys['1']) {
-						app.tool.tileType = 1;
+						app.tool.tileType = blocks.WALL;
 					} else if (Input.keys['2']) {
-						app.tool.tileType = 2;
+						app.tool.tileType = blocks.DOOR;
 					} else if (Input.keys['3']) {
-						app.tool.tileType = 3;
+						app.tool.tileType = blocks.WINDOW;
 					} else if (Input.keys['4']) {
-						app.tool.tileType = 4;
+						app.tool.tileType = blocks.OBSTACLE;
 					} else if (Input.keys['5']) {
-						app.tool.tileType = 5;
+						app.tool.tileType = blocks.HAZARD;
 					} else if (Input.keys['6']) {
-						app.tool.tileType = 6;
+						app.tool.tileType = blocks.LINK;
 					} else if (Input.keys['7']) {
-						app.tool.tileType = 7;
+						app.tool.tileType = blocks.EXIT;
 					}
 					//console.log("Tool is now " + app.tool.tileType);
 				}
@@ -161,7 +162,7 @@ app = {
 
 		app.path.update = function(dt) {
 			if (app.path.data) {
-				//	app.astar.calculate();
+				app.update();
 			}
 		};
 
@@ -182,6 +183,7 @@ app = {
 
 	},
 
+	// aka FindNearestExit()
 	update: function() {
 		// find the closest goal tile to the position marker
 		var closest = {};
@@ -198,6 +200,15 @@ app = {
 		var start = graph.grid[app.marker.pos.x][app.marker.pos.y];
 		var end = graph.grid[closest.x][closest.y];
 		app.path.data = astar.search(graph, start, end);
+		if (app.path.data.length > 0) {
+			//console.log("Found exit, path next in log: ")
+			//console.log(app.path.data);
+			//console.log("Approximate time to exit at walking speed: " + (app.path.data.length / estimator.fps) + "s");
+		} else {
+			//console.log("Could not find path to exit (path length 0)");
+		}
+		
+
 		// app.astar.setGrid(app.floorplan.data);
 		// app.astar.setAcceptableTiles([0]);
 		// app.floorplan.findGoals();
@@ -222,19 +233,3 @@ $(document).ready(function(){
 	app.sqd.start();
 });
 
-$('#edit').click(function(e){
-	app.mode = "EDITOR";
-	$('#status').html("Edit Mode");
-	console.log("changed to edit mode");
-});
-
-$('#user').click(function(e){
-	app.mode = "USER";
-	$('#status').html("User Mode");
-	console.log("changed to user mode");
-});
-
-$('#update').click(function(e){
-	console.log("clicked update");
-	app.update();	
-});

@@ -60,33 +60,33 @@ map_config = {
 blocks = {
 	WALL: 0,
 	CLEAR: 1,
-	DOOR: 2,
-	WINDOW: 3,
-	OBST: 4,
-	HAZARD: 5,
+	DOOR: 10,
+	WINDOW: 200,
+	OBSTACLE: 50,
+	HAZARD: 500,
 	LINK: 6,
 	EXIT: 7,
 
 	getColor: function(blockId) {
 		switch (blockId) {
-			case 0:
+			case blocks.WALL:
 				return '#000'; // clear
-			case 1:
+			case blocks.CLEAR:
 				return '#FFF'; // wall
-			case 2:
+			case blocks.DOOR:
 				return '#ABABAB'; // door
-			case 3:
+			case blocks.WINDOW:
 				return '#0000FF'; // window
-			case 4:
+			case blocks.OBSTACLE:
 				return '#FFFF00'; // obstruction
-			case 5:
+			case blocks.HAZARD:
 				return '#FF9900'; // hazard
-			case 6:
+			case blocks.LINK:
 				return '#00CCFF'; // link (door to another floorplan)
-			case 7:
+			case blocks.EXIT:
 				return '#00FF00'; // exit, goal
 			default:
-				return '#000000';
+				return '#FF00FF';
 		}
 	}
 }
