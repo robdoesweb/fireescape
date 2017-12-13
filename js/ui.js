@@ -45,11 +45,11 @@ $('#update').click(function(e){
 $('#options').hide();
 
 $("#draw").click(function(e){
-
+	app.selectedTool = "drawing";
 });
 
 $("#room").click(function(e){
-
+	app.selectedTool = "room";
 });
 
 $("#clear").click(function(e){
@@ -78,4 +78,12 @@ $("#hazard").click(function(e){
 
 $("#exit").click(function(e){
 	app.tool.tileType = blocks.EXIT;
+});
+
+$("#user-hazard").click(function(e){
+	app.selectedTool = "hazard";
+});
+
+$("#changepos").click(function(e){
+	app.selectedTool = "position";
 });

@@ -128,8 +128,6 @@ app = {
 					//console.log("Tool is now " + app.tool.tileType);
 				}
 
-
-
 				if ((app.mode == "EDITOR") && (app.tool.tileType !== null) && Input.mouse.down) {
 					if (app.selectedTool = "Drawing") {
 						var x = (Math.floor(Input.mouse.x / config.tileSize)) + app.map.currX;
@@ -140,7 +138,21 @@ app = {
 					//console.log("app mode: " + app.mode);
 					//console.log("Tried changing [" + x + "," + y + "] to " + app.tool.tileType);
 				}
+
+				if ((app.mode === "USER") && (app.selectedTool === "hazard") && Input.mouse.down) {
+						var x = (Math.floor(Input.mouse.x / config.tileSize)) + app.map.currX;
+						var y = (Math.floor(Input.mouse.y / config.tileSize)) + app.map.currY;
+						app.floorplan.data[x][y] = blocks.HAZARD;
+				}
 		}
+
+		// use onClick event for change pos so we don't scroll all over the place
+		Input.onClick(function(e){
+			if (app.mode === "USER" && app.selectedTool === "position") {
+				app.marker.pos = app.tool.pos;
+				//console.log("Changed user position to: " + app.marker.pos.x + " , " + app.marker.pos.y);
+			}
+		});
 
 		app.tool.render = function(ctx) {
 			ctx.strokeStyle = '#ff0000';
@@ -154,13 +166,6 @@ app = {
 		**/
 		app.marker = new SQUID.Entity(window.screen.innerWidth / 2, window.screen.innerHeight / 2, config.tileSize, config.tileSize); 
 		app.marker.pos = {x: 50, y: 50};
-
-		Input.onClick(function(e){
-			if (app.mode === "USER") {
-				app.marker.pos = app.tool.pos;
-				console.log("Changed user position to: " + app.marker.pos.x + " , " + app.marker.pos.y);
-			}
-		});
 
 		app.marker.update = function(dt) {
 
