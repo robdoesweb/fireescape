@@ -15,18 +15,46 @@ body {
 	background-image: linear-gradient(#F00, #800);
 }
 
-button {
+#control-panel button {
 	padding: 15px;
 	font-size: 1.5em;
 	color: white;
 	background: black;
-	border: 1px solid white;
+	border: 2px solid white;
+	border-radius: 10px;
 	outline: none;
-	margin: 5px;
+	margin: auto;
+	transition: all 0.3s linear;
+}
+
+#control-panel button:hover {
+	border-color: red;
+	background: #222222;
+}
+
+#toolbar button {
+	font-size: 1.2em;
+	padding: 10px;
+}
+
+#status {
+	background: black;
+	color: white;
+	font-size: 1.4em;
+	padding: 10px;
+	border-radius: 10px;
 }
 
 #frame {
 	width: 100vw;
+}
+
+#control-panel {
+	width: 800px;
+	margin: auto;
+	background: rgba(0, 0, 0, 0.5);
+	border-radius: 15px;
+	padding: 15px;
 }
 
 #squid { 

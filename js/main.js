@@ -31,6 +31,8 @@ app = {
 
 	mode: "EDITOR",
 
+	selectedTool: "Drawing",
+
 	tool: {},
 
 	sqd: new Squid(document.getElementById('squid'), config.width, config.height), // graphics library
@@ -45,14 +47,35 @@ app = {
 			initialize the map (floorplan)
 		**/
 		app.map = new SQUID.Entity(0, 0, window.screen.innerWidth, window.screen.innerHeight);
+		app.map.lastMove = 0;
 		app.map.update = function(dt) {
-
+			this.lastMove += dt;
+			if (this.lastMove > 0.1) {
+				if (Input.keys['w']) {
+					app.currentPos.y -= 1;
+					this.lastMove = 0;
+				}
+				if (Input.keys['s']) {
+					app.currentPos.y += 1;
+					this.lastMove = 0;
+				}
+				if (Input.keys['a']) {
+					app.currentPos.x -= 1;
+					this.lastMove = 0;
+				}
+				if (Input.keys['d']) {
+					app.currentPos.x += 1;
+					this.lastMove = 0;
+				}
+			}
 		};
+
+		app.currentPos = {x: 50, y: 50};
 
 		app.map.render = function(ctx) {
 			// get sx, sy so that marker is in center of screen
-			app.floorplan.offX = app.marker.pos.x - ((config.tilesAcross - 1) / 2);
-			app.floorplan.offY = app.marker.pos.y - ((config.tilesAcross - 1) / 2);
+			app.floorplan.offX = app.currentPos.x - ((config.tilesAcross - 1) / 2);
+			app.floorplan.offY = app.currentPos.y - ((config.tilesAcross - 1) / 2);
 
 			app.map.currX = app.floorplan.offX;
 			app.map.currY = app.floorplan.offY;
@@ -101,15 +124,19 @@ app = {
 					} else if (Input.keys['7']) {
 						app.tool.tileType = blocks.EXIT;
 					}
+					state.update();
 					//console.log("Tool is now " + app.tool.tileType);
 				}
 
 
 
 				if ((app.mode == "EDITOR") && (app.tool.tileType !== null) && Input.mouse.down) {
-					var x = (Math.floor(Input.mouse.x / config.tileSize)) + app.map.currX;
-					var y = (Math.floor(Input.mouse.y / config.tileSize)) + app.map.currY;
-					app.floorplan.data[x][y] = app.tool.tileType;
+					if (app.selectedTool = "Drawing") {
+						var x = (Math.floor(Input.mouse.x / config.tileSize)) + app.map.currX;
+						var y = (Math.floor(Input.mouse.y / config.tileSize)) + app.map.currY;
+						app.floorplan.data[x][y] = app.tool.tileType;
+					}
+
 					//console.log("app mode: " + app.mode);
 					//console.log("Tried changing [" + x + "," + y + "] to " + app.tool.tileType);
 				}
@@ -163,6 +190,7 @@ app = {
 		app.path.update = function(dt) {
 			if (app.path.data) {
 				app.update();
+				state.update();
 			}
 		};
 
@@ -189,40 +217,30 @@ app = {
 		var closest = {};
 		var minDist = Infinity;
 		app.floorplan.findGoals();
-		for (var i = 0; i < app.floorplan.exits.length; i++) {
-			var goal = app.floorplan.exits[i];
-			if (manhattan(app.marker.pos, goal) < minDist) {
-				closest = goal;
-				minDist = manhattan(app.marker.pos, goal);
+		if (app.floorplan.exits.length > 0) {
+			for (var i = 0; i < app.floorplan.exits.length; i++) {
+				var goal = app.floorplan.exits[i];
+				if (manhattan(app.marker.pos, goal) < minDist) {
+					closest = goal;
+					minDist = manhattan(app.marker.pos, goal);
+				}
 			}
-		}
-		var graph = new Graph(app.floorplan.data);
-		var start = graph.grid[app.marker.pos.x][app.marker.pos.y];
-		var end = graph.grid[closest.x][closest.y];
-		app.path.data = astar.search(graph, start, end);
-		if (app.path.data.length > 0) {
-			//console.log("Found exit, path next in log: ")
-			//console.log(app.path.data);
-			//console.log("Approximate time to exit at walking speed: " + (app.path.data.length / estimator.fps) + "s");
+			var graph = new Graph(app.floorplan.data);
+			var start = graph.grid[app.marker.pos.x][app.marker.pos.y];
+			var end = graph.grid[closest.x][closest.y];
+			app.path.data = astar.search(graph, start, end);
+			var pathLength = app.path.data.length;
+			if (pathLength > 0) {
+				state.timeToExit = "Exit is " + pathLength + " " + app.floorplan.units + " and " + pathLength * estimator.fps + " seconds away.";
+			} else {
+				state.timeToExit = "Could not find a path to the exit.";
+			}
 		} else {
-			//console.log("Could not find path to exit (path length 0)");
+			state.timeToExit = "Could not find an exit.";
 		}
+
+
 		
-
-		// app.astar.setGrid(app.floorplan.data);
-		// app.astar.setAcceptableTiles([0]);
-		// app.floorplan.findGoals();
-		// app.astar.setIterationsPerCalculation(100);
-
-
-
-		// //console.log("Closest is: " + closest + " at " + minDist + " feet away.");
-		// app.astar.findPath(app.marker.pos.x, app.marker.pos.y, closest.x, closest.y, function(path){
-		// 	app.path.data = path;
-		// 	console.log(path);
-		// });
-
-		// app.astar.calculate();
 	}
 
 

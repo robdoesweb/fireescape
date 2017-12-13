@@ -1,9 +1,9 @@
 
 // creates a new, blank floorplan
-function Floorplan(size_x, size_y, tile_scale) {
+function Floorplan(size_x, size_y, units) {
 	this.x = size_x; // int, max width of floorplan
 	this.y = size_y; // int, max height of floorplan
-	this.tile_scale = tile_scale; // string, unit of measurement for display only
+	this.units = units; // string, unit of measurement for display only
 	this.data = [[]]; // 2d array with x cols and y rows
 	this.exits = [];  // 1d array of exits with position objects {x,y}
 	this.default_start = {x: 0, y: 0}; // initial placement for marker, can be updated later
@@ -87,6 +87,29 @@ blocks = {
 				return '#00FF00'; // exit, goal
 			default:
 				return '#FF00FF';
+		}
+	},
+
+	getBlockName: function(blockId) {
+		switch (blockId) {
+			case blocks.WALL:
+				return 'Wall'; // clear
+			case blocks.CLEAR:
+				return 'Clear'; // wall
+			case blocks.DOOR:
+				return 'Door'; // door
+			case blocks.WINDOW:
+				return 'Window'; // window
+			case blocks.OBSTACLE:
+				return 'Obstacle'; // obstruction
+			case blocks.HAZARD:
+				return 'Hazard'; // hazard
+			case blocks.LINK:
+				return 'Link'; // link (door to another floorplan)
+			case blocks.EXIT:
+				return 'Exit'; // exit, goal
+			default:
+				return 'None';
 		}
 	}
 }
