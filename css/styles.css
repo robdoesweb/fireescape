@@ -18,6 +18,7 @@ body {
 #control-panel button {
 	padding: 15px;
 	font-size: 1.5em;
+	font-weight: bold;
 	color: white;
 	background: black;
 	border: 2px solid white;
@@ -72,4 +73,45 @@ body {
 .container {
 	width: 980px;
 	margin: auto;
+}
+
+#tools #clear {
+	color: black;
+	background-color: white;
+	border-color: black;
+}
+
+#tools #wall {
+	color: white;
+	background-color: black;
+}
+
+#tools #door {
+	color: black;
+	background-color: #ABABAB;
+	border-color: black;
+}
+
+#tools #window {
+	color: black;
+	background-color: #0000FF;
+	border-color: black;
+}
+
+#tools #obstacle {
+	color: black;
+	background-color: #FFFF00;
+	border-color: black;
+}
+
+#tools #hazard {
+	color: white;
+	background-color: #FF9900;
+	border-color: black;
+}
+
+#tools #exit {
+	color: black;
+	background-color: #00FF00;
+	border-color: black;
 }

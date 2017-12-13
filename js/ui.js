@@ -44,3 +44,38 @@ $('#update').click(function(e){
 
 $('#options').hide();
 
+$("#draw").click(function(e){
+
+});
+
+$("#room").click(function(e){
+
+});
+
+$("#clear").click(function(e){
+	app.tool.tileType = blocks.CLEAR;
+});
+
+$("#wall").click(function(e){
+	app.tool.tileType = blocks.WALL;
+});
+
+$("#door").click(function(e){
+	app.tool.tileType = blocks.DOOR;
+});
+
+$("#window").click(function(e){
+	app.tool.tileType = blocks.WINDOW;
+});
+
+$("#obstacle").click(function(e){
+	app.tool.tileType = blocks.OBSTACLE;
+});
+
+$("#hazard").click(function(e){
+	app.tool.tileType = blocks.HAZARD;
+});
+
+$("#exit").click(function(e){
+	app.tool.tileType = blocks.EXIT;
+});

@@ -231,7 +231,14 @@ app = {
 			app.path.data = astar.search(graph, start, end);
 			var pathLength = app.path.data.length;
 			if (pathLength > 0) {
-				state.timeToExit = "Exit is " + pathLength + " " + app.floorplan.units + " and " + pathLength * estimator.fps + " seconds away.";
+				var timeToExit = pathLength / estimator.fps;
+				var unit = "seconds";
+				if (timeToExit > 60) {
+					timeToExit /= 60;
+					unit = "minutes";
+				}
+				timeToExit = Math.round(timeToExit);
+				state.timeToExit = "Exit is " + pathLength + " " + app.floorplan.units + "away. Estimated " + timeToExit +  " " + unit + " to exit.";
 			} else {
 				state.timeToExit = "Could not find a path to the exit.";
 			}
